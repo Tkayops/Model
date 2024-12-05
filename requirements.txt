@@ -1,1 +1,8 @@
-fastapi[all]
+fastapi
+uvicorn
+PyMuPDF
+pytesseract
+Pillow
+spacy
+python-docx
+python-pptx
