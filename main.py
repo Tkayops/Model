@@ -1,5 +1,6 @@
 import random
 import string
+import os
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from io import BytesIO
@@ -101,7 +102,7 @@ def generate_questions_from_text(text):
             question_text = f"What does the following mean: '{sentence}'?"
             questions.append(generate_mcq(question_text, sentence, ["Example A", "Example B", "Example C"]))
         elif random.random() < 0.5:  # Short Answer
-            questions.append(generate_short_answer(f"Explain: '{sentence}'."))
+            questions.append(generate_short_answer(f"Explain: '{sentence}'.")) 
         else:  # True/False
             questions.append(generate_true_false(f"Is the following correct? '{sentence}'", "True" if random.random() > 0.5 else "False"))
     return questions
@@ -117,3 +118,7 @@ async def generate_exam_from_file(file: UploadFile = File(...)):
     except Exception as e:
         print(f"Unexpected Error: {e}")
         return {"error": "An unexpected error occurred."}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
